@@ -112,6 +112,8 @@ En accédant à l'URL du service depuis *Hostname > External hostname*, nous pou
 ![Déploiement de l'application Java](/images/deploiement_java.png "Déploiement de l'application Java")
 *Figure 6 : Résultat de la requête /public/centers récupérant tous les centres*
 
+Voici la requête en question : https://covid-api-prod-td-mise-en-prod-zst38k.mo6.mogenius.io/public/centers
+
 Nous observons que nous ne récupérons finalement aucun centre. C'est normal, car notre base de données est vide.
 
 En conclusion de cette partie, nous avons déployé une application Java et une base de données PostgreSQL sur Mogenius. Nous avons pu voir que l'application Java pouvait se connecter à la base de données PostgreSQL et récupérer des données.
