@@ -75,7 +75,7 @@ Pour la variable *POSTGRES_PASSWORD*, il est nécessaire de créer une variable 
 ![Variable secrète](/images/key_vault.png "Variable secrète")
 *Figure 3 : Ajout d'une variable secrète*
 
-Nous pouvons ensuite utiliser cette variable dans notre service en renseignant *database-password* comme valeur de la variable d'environnement *POSTGRES_PASSWORD*. Pour les variables *POSTGRES_USER* et *POSTGRES_DB*, nous pouvons renseigner respectivement les valeurs *postgres* et *covid-db*.
+Nous pouvons ensuite utiliser cette variable dans notre service en renseignant *database-password* comme valeur de la variable d'environnement *POSTGRES_PASSWORD* (en choisissant le type *Key Vault*). Pour les variables *POSTGRES_USER* et *POSTGRES_DB*, nous pouvons renseigner respectivement les valeurs *postgres* et *covid-db* (choisis arbitrairement).
 
 Nous obtenons finalement la configuration suivante :
 ![Variables d'environnement](/images/variables_environnement_postgresql.png "Variables d'environnement")
@@ -96,26 +96,26 @@ Nous pouvons voir que le total de ressources allouables disponibles n'est plus q
 Le port d'écoute de notre application est 8080. Nous renseignons ce port dans le champ *Port*.
 
 Il est important de renseigner toutes les variables d'environnements suivantes, sans quoi notre application ne pourra pas se connecter à la base de données PostgreSQL :
-- *DATABASE_HOST* : Nom d'hôte interne du service PostgreSQL. Il est à récupérer en cliquant sur *Hostname* dans la page du service. La valeur est ici *postgre-db-z7mvu5*
-- *DATABASE_USERNAME* : Nom d'utilisateur de la base de données PostgreSQL. Il a été renseigné dans les variables d'environnement du service PostgreSQL. La valeur est *postgres*
-- *DATABASE_PORT* : Port d'écoute de la base de données PostgreSQL. Il a aussi été renseigné dans les variables d'environnement du service PostgreSQL (valeur par défaut). La valeur est *5432*
-- *DATABASE_PASSWORD* : Mot de passe de la base de données PostgreSQL. La valeur est *database-password* (le nom de la variable secrète que nous avons créé précédemment)
-- *DATABASE_NAME* : Nom de la base de données PostgreSQL. Renseigné également dans l'autre service, la valeur est *covid-db*
+- *DATABASE.HOST* : Nom d'hôte interne du service PostgreSQL. Il est à récupérer en cliquant sur *Hostname* dans la page du service. La valeur est ici *postgre-db-c40tya*
+- *DATABASE.USERNAME* : Nom d'utilisateur de la base de données PostgreSQL. Il a été renseigné dans les variables d'environnement du service PostgreSQL. La valeur est *postgres*
+- *DATABASE.PORT* : Port d'écoute de la base de données PostgreSQL. Il a aussi été renseigné dans les variables d'environnement du service PostgreSQL (valeur par défaut). La valeur est *5432*
+- *DATABASE.PASSWORD* : Mot de passe de la base de données PostgreSQL. En choisissant le type *Key Vault*, la valeur est *database-password* (le nom de la variable secrète que nous avons créé précédemment)
+- *DATABASE.NAME* : Nom de la base de données PostgreSQL. Renseigné également dans l'autre service, la valeur est *covid-db*
 
 Nous obtenons finalement la configuration suivante :
 ![Variables d'environnement](/images/variables_environnement_java.png "Variables d'environnement")
 *Figure 5 : Configuration des variables d'environnement du service Java*
 
-Nous pouvons valider la création du service. Ce dernier effecture les mêmes étapes que le premier service, c'est-à-dire qu'il effectue un git clone du repository Github, build l'image Docker puis démarre (docker run). Nous pouvons voir les logs du service depuis l'onglet *Logs* afin de vérifier qu'il s'est bien lancé.
+Nous pouvons valider la création du service. Ce dernier effectue les mêmes étapes que le premier service, c'est-à-dire qu'il effectue un git clone du repository Github, build l'image Docker puis démarre (docker run). Nous pouvons voir les logs du service depuis l'onglet *Logs* afin de vérifier qu'il s'est bien lancé.
 
 En accédant à l'URL du service depuis *Hostname > External hostname*, nous pouvons voir que notre application Java est bien déployée et fonctionnelle. Par exemple, en accédant à l'URL */public/centers* qui correspond à la méthode HTTP GET de récupération de tous les centres, nous obtenons la réponse suivante :
 ![Déploiement de l'application Java](/images/deploiement_java.png "Déploiement de l'application Java")
-*Figure 5 : Résultat de la requête /public/centers récupérant tous les centres*
+*Figure 6 : Résultat de la requête /public/centers récupérant tous les centres*
 
 Nous observons que nous ne récupérons finalement aucun centre. C'est normal, car notre base de données est vide.
 
 En conclusion de cette partie, nous avons déployé une application Java et une base de données PostgreSQL sur Mogenius. Nous avons pu voir que l'application Java pouvait se connecter à la base de données PostgreSQL et récupérer des données.
 ____
 
-Pour conclure ce TD, nous avons vu comment déployer une application web simple dans un premier temps, puis une application Java et une base de données PostgreSQL sur Mogenius.
+Pour conclure ce TD, nous avons vu comment déployer une application web simple dans un premier temps, puis une application Java et une base de données PostgreSQL sur Mogenius. Lorsque le code source de l'application sera mis à jour, il suffira de relancer le build du service Java pour que les changements soient pris en compte.
 Malheureusement, comme nous étions limités par le nombre de ressources disponibles de part la gratuité de l'offre, nous n'avons pas pu déployer le front-end de notre application web.
